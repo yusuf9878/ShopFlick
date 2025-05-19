@@ -448,7 +448,7 @@ button.loading {
         <div class="product-details">
           <h3>${data.name}</h3>
           <p><span style="color:blue; font-weight:800;">Details: </span>${data.description || 'No description available'}</p>
-          <p><strong><span style="color:blue; font-weight:800;">Price: </span> ₹${data.price || 'N/A'}</strong></p>
+          <p><strong style="font-size:20px;"><span style="color:blue; font-weight:800;">Price: </span> ₹${data.price || 'N/A'}</strong></p>
           <button onclick="addToCart('${productId}', this)">Add to Cart</button>
         </div>
       `;
