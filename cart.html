@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Welcome to ShopFlick - Your Trusted Online Shopping Destination" />
+  <script src="https://kit.fontawesome.com/6da5f33df1.js" crossorigin="anonymous"></script>
+  <!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+  <title>ShopFlick</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
+  <!-- iziToast CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+
+<!-- iziToast JS -->
+<script src="https://cdn.jsdelivr.net/npm/izitoast/dist/js/iziToast.min.js"></script>
+
+  
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      padding-bottom: 60px; /* Add padding for fixed footer */
+    }
+    nav {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      position: relative;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      padding-left: 10px;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .logo::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      height: 2px;
+      width: 100%;
+      background-color: red;
+      animation: moveBorder 5s infinite ease-in-out;
+    }
+    @keyframes moveBorder {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+    }
+
+    .menu {
+      display: flex;
+      gap: 20px;
+    }
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      padding-right: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+    }
+    .menu a:hover {
+      background-color: blueviolet;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+    .hamburger div:hover {
+      background-color: blueviolet;
+    }
+
+    /* Hide icons on mobile */
+    @media (max-width: 768px) {
+      .menu a i {
+        display: none;
+      }
+      .menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #1a1a1a;
+        padding: 10px 0;
+      }
+      .menu.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    footer p {
+      background-color: #1a1a1a;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    .cart-item {
+  background-color: #fff;
+  padding: 15px;
+  margin: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.cart-item h3 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.cart-item p {
+  margin: 0;
+  color: #666;
+}
+
+.form-section {
+  background-color: #fff;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: blueviolet;
+}
+    
+    
+    </style>
+    </head>
+    <body>
+           <nav>
+    <div class="logo">Shop<span style="color:#ff000a;">Flick</span>🛒Cart</div>
+    <div class="hamburger" onclick="togglemenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="menu" id="menu">
+     <a href="singup.html" id="login-link">
+  <i class="fa-solid fa-right-to-bracket"></i>
+  Login
+</a>
+      <a href="status.html"><i class="fa-solid fa-circle-info"></i>Orders Status</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i>Cart</a>
+      <a href="contact.html"><i class="fa-solid fa-envelope"></i>Contact</a>
+    </div>
+  </nav>
+         <!-- Main Content Cart-->
+      <!-- Add this inside <body> before </body> -->
+<div id="cart-items" style="padding: 20px;"></div>
+
+<div id="saved-address" class="form-section" style="display:none;"></div>
+
+<div id="address-form" class="form-section" style="display:none;">
+  <h3>Delivery Address</h3>
+  <div class="form-group"><label>Full Name</label><input type="text" id="name"></div>
+  <div class="form-group"><label>Phone</label><input type="tel" id="phone"></div>
+  <div class="form-group"><label>Pincode</label><input type="text" id="pincode"></div>
+  <div class="form-group"><label>State</label><input type="text" id="state"></div>
+  <div class="form-group"><label>City</label><input type="text" id="city"></div>
+  <div class="form-group"><label>Address</label><textarea id="address"></textarea></div>
+  <div class="form-group"><label>Landmark (Optional)</label><input type="text" id="landmark"></div>
+  <button onclick="placeOrder()">Place Order</button>
+</div>
+
+<div id="loader" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+  <div style="color:#fff; font-size:20px;">Placing Order...</div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt57ceUAJiVxsbv07yaHtQCTViBT67W-0",
+    authDomain: "shopflick-c5be3.firebaseapp.com",
+    projectId: "shopflick-c5be3",
+    storageBucket: "shopflick-c5be3.appspot.com",
+    messagingSenderId: "890684049593",
+    appId: "1:890684049593:web:d69d6a8496c116ebc8f368"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const cartContainer = document.getElementById("cart-items");
+  const formSection = document.getElementById("address-form");
+  const savedAddressSection = document.getElementById("saved-address");
+  const loader = document.getElementById("loader");
+
+  let savedAddress = null;
+  let uid;
+
+  firebase.auth().onAuthStateChanged(async user => {
+    if (!user) {
+      window.location.href = "singup.html";
+      return;
+    }
+
+    uid = user.uid;
+
+    const cartDoc = await db.collection("carts").doc(uid).get();
+    const addressDoc = await db.collection("addresses").doc(uid).get();
+
+    // Render Cart Items
+    if (!cartDoc.exists || !cartDoc.data().items || cartDoc.data().items.length === 0) {
+      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+      const items = cartDoc.data().items;
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image || 'https://via.placeholder.com/100'}" style="width:100px;height:100px;border-radius:5px;object-fit:cover;margin-right:10px;">
+          <div style="display:inline-block;vertical-align:top;">
+            <h3>${item.name}</h3>
+            <p>Price: ₹${item.price}</p>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+    }
+
+    // Render Saved Address or Show Form
+    if (addressDoc.exists) {
+      savedAddress = addressDoc.data();
+      formSection.style.display = "none";
+      savedAddressSection.style.display = "block";
+      savedAddressSection.innerHTML = `
+        <h3>Saved Delivery Address</h3>
+        <p><strong>Name:</strong> ${savedAddress.name}</p>
+        <p><strong>Phone:</strong> ${savedAddress.phone}</p>
+        <p><strong>Pincode:</strong> ${savedAddress.pincode}</p>
+        <p><strong>City:</strong> ${savedAddress.city}, ${savedAddress.state}</p>
+        <p><strong>Address:</strong> ${savedAddress.address}</p>
+        <p><strong>Landmark:</strong> ${savedAddress.landmark || "N/A"}</p>
+        <button onclick="placeOrder()">Place Order</button>
+        <button onclick="editAddress()">Edit Address</button>
+      `;
+    } else {
+      formSection.style.display = "block";
+    }
+  });
+
+
+
+  async function placeOrder() {
+    loader.style.display = "flex";
+
+    try {
+      if (!savedAddress) {
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const pincode = document.getElementById("pincode").value.trim();
+        const state = document.getElementById("state").value.trim();
+        const city = document.getElementById("city").value.trim();
+        const address = document.getElementById("address").value.trim();
+        const landmark = document.getElementById("landmark").value.trim();
+
+        if (!name || !phone || !pincode || !state || !city || !address) {
+          iziToast.error({ title: "Error", message: "Please fill all required fields" });
+          loader.style.display = "none";
+          return;
+        }
+
+        savedAddress = { name, phone, pincode, state, city, address, landmark };
+        await db.collection("addresses").doc(uid).set(savedAddress);
+      }
+
+      const cartDoc = await db.collection("carts").doc(uid).get();
+      if (!cartDoc.exists || !cartDoc.data().items || cartDoc.data().items.length === 0) {
+        iziToast.warning({ title: "Cart Empty", message: "No items in cart." });
+        loader.style.display = "none";
+        return;
+      }
+
+      const order = {
+         userId: uid,
+        items: cartDoc.data().items,
+        address: savedAddress,
+        timestamp: firebase.firestore.Timestamp.now()
+      };
+
+      await db.collection("orders").add(order);
+      await db.collection("carts").doc(uid).delete();
+
+      iziToast.success({ title: "Success", message: "Order placed!" });
+      setTimeout(() => window.location.href = "status.html", 2000);
+    } catch (err) {
+      console.error(err);
+      iziToast.error({ title: "Error", message: "Something went wrong." });
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+
+  function editAddress() {
+    formSection.style.display = "block";
+    savedAddressSection.style.display = "none";
+
+    document.getElementById("name").value = savedAddress.name || "";
+    document.getElementById("phone").value = savedAddress.phone || "";
+    document.getElementById("pincode").value = savedAddress.pincode || "";
+    document.getElementById("state").value = savedAddress.state || "";
+    document.getElementById("city").value = savedAddress.city || "";
+    document.getElementById("address").value = savedAddress.address || "";
+    document.getElementById("landmark").value = savedAddress.landmark || "";
+  }
+  
+  
+</script>
+</body>
+</html>

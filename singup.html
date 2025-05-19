@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Welcome to ShopFlick - Your Trusted Online Shopping Destination" />
+  <script src="https://kit.fontawesome.com/6da5f33df1.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <title>ShopFlick</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
+  
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  nav {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;
+    height: 60px;
+    position: relative;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+  }
+  .logo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    height: 2px;
+    width: 100%;
+    background-color: red;
+    animation: moveBorder 5s infinite ease-in-out;
+  }
+  @keyframes moveBorder {
+    0%, 100% { left: 0; }
+    50% { left: 20px; }
+  }
+  
+    footer p {
+      background-color: #1a1a1a;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  .singup-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .singup-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .singup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  .singup-form input[type="text"],
+  .singup-form input[type="email"],
+  .singup-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  .singup-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .singup-form button:hover {
+    background-color: #333;
+  }
+  .singup-form a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #1a1a1a;
+    text-decoration: none;
+  }
+  .singup-form a:hover {
+    text-decoration: underline;
+  }
+  .singup-form input:focus {
+    outline: none;
+    border-color: #1224c7;
+  }
+  .singup-form button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #1224c7;
+  }
+  .singup-form input::placeholder {
+    color: #aaa;
+  }
+  .singup-form input:focus::placeholder {
+    color: #1224c7;
+  }
+  .singup-form button:focus::placeholder {
+    color: #fff;
+  }
+  .singup-form input:focus::placeholder {
+    color: #1224c7;
+  }
+</style>
+
+    </head>
+    <body>
+  <nav>
+    <div class="logo">ShopFlick</div>
+    </nav>
+   
+  <div class="singup-form">
+
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+
+      <label for="username">Full Name:</label>
+      <input type="text" id="username" name="username" required  placeholder="Enter Your Name"/>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required placeholder="Enter Your Email" />
+
+       <label for="password">Mobile:</label>
+      <input type="text" id="number" name="number" required placeholder="Enter your mobile number" title="Mobile Number" />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required  placeholder="Enter Your Password"/>
+
+            <label for="cnfpassword">Confrim Password:</label>
+      <input type="password" id="cnfpassword" name="cnfpassword" required  placeholder="Enter Confrim Password"/>
+
+      <button type="submit">Sign Up</button>
+       <a href="login.html" style="color: #1224c7;">already have an account! log in</a>
+    </form>
+
+  </div>
+    <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCt57ceUAJiVxsbv07yaHtQCTViBT67W-0",
+    authDomain: "shopflick-c5be3.firebaseapp.com",
+    projectId: "shopflick-c5be3",
+    storageBucket: "shopflick-c5be3.firebasestorage.app",
+    messagingSenderId: "890684049593",
+    appId: "1:890684049593:web:d69d6a8496c116ebc8f368",
+    measurementId: "G-MJQMDD1C99"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fullName = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mobile = document.getElementById('number').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('cnfpassword').value;
+
+    const button = document.querySelector('.singup-form button');
+    button.disabled = true;
+    button.textContent = "Signing up...";
+
+    if (password !== confirmPassword) {
+      Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Passwords do not match!',
+  confirmButtonColor: '#1a1a1a'
+});
+      button.disabled = false;
+      button.textContent = "Sign Up";
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        fullName,
+        email,
+        mobile,
+        createdAt: serverTimestamp()
+      });
+
+            Swal.fire({
+  icon: 'success',
+  title: 'welcome to ShopFlick',
+  text: 'You have successfully signed up!',
+  showConfirmButton: true,
+  }).then((result) => {
+  if (result.isConfirmed) {
+    window.location.href = 'login.html';
+  }
+});
+    } catch (error) {
+      alert(error.message);
+    }
+
+    button.disabled = false;
+    button.textContent = "Sign Up";
+  });
+</script>
+pt>
+
+
+
+ <footer>
+      <p>&copy; 2023 ShopFlick. All rights reserved.</p>
+ </footer>
+    </body>
+    </html>
